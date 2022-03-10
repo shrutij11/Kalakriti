@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect } from "react";
 import "./Home.css";
-import Product from "./Product.js";
+import ProductCard from "./ProductCard.js";
 import MetaData from "../layout/MetaData"
-import { getProduct} from "../../actions/productAction"
+import {clearErrors, getProduct} from "../../actions/productAction"
 import { useSelector, useDispatch} from "react-redux"
 import Loader from "../layout/Loader/Loader";
 import { useAlert } from "react-alert"
@@ -16,7 +16,8 @@ const { loading, error, products, productsCount} = useSelector(
 );
   useEffect(() => {
     if(error){
-      return alert.error(error);
+      alert.error(error);
+            dispatch(clearErrors());
     }
     dispatch(getProduct());
   },[dispatch, error, alert]);
@@ -43,7 +44,7 @@ const { loading, error, products, productsCount} = useSelector(
           <h2 className="homeHeading">Featured Products</h2>
 
           <div className="container" id="container">
-            {products && products.map((product)=> <Product product={product} />)}
+            {products && products.map((product)=> <ProductCard product={product} />)}
 
           </div>
     </Fragment>
