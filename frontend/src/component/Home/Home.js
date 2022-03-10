@@ -1,22 +1,34 @@
 import React, { Fragment, useEffect } from "react";
 import "./Home.css";
 import Product from "./Product.js";
+import MetaData from "../layout/MetaData"
+import { getProduct} from "../../actions/productAction"
+import { useSelector, useDispatch} from "react-redux"
+import Loader from "../layout/Loader/Loader";
+import { useAlert } from "react-alert"
 
-
-
-
-const product = {
-    name: "Blue Tshirt",
-    images: [{ url: "https://rukminim1.flixcart.com/image/416/416/kffq2kw0/tapestry/y/e/u/b08jkh2d72-art-world-original-imafvvm2mmhhe6vf.jpeg?q=70"}],
-    price:"$3000",
-    _id:"shruti",
-}
 
 const Home = () => {
+  const alert = useAlert();
+const dispatch = useDispatch();
+const { loading, error, products, productsCount} = useSelector(
+  (state) => state.products
+);
+  useEffect(() => {
+    if(error){
+      return alert.error(error);
+    }
+    dispatch(getProduct());
+  },[dispatch, error, alert]);
 
   return (
     <Fragment>
-
+      {loading ? (
+        <Loader />
+      ):
+      (
+        <Fragment>
+    <MetaData title="Kalakriti" />
           <div className="banner">
             <p>Welcome to Kalakriti</p>
             <h1>FIND AMAZING PRODUCTS BELOW</h1>
@@ -31,15 +43,11 @@ const Home = () => {
           <h2 className="homeHeading">Featured Products</h2>
 
           <div className="container" id="container">
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
-            <Product product={product} />
+            {products && products.map((product)=> <Product product={product} />)}
+
           </div>
+    </Fragment>
+      )}
     </Fragment>
   );
 };

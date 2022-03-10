@@ -8,7 +8,7 @@ import {BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 // } from "react-router-dom";
 import Footer from "./component/layout/Footer/Footer.js"
 import Home from "./component/Home/Home.js"
-
+import ProductDetails from "./component/Product/ProductDetails.js"
 
 
 function App() {
@@ -17,10 +17,10 @@ function App() {
       <Navbar />
       <Routes>
        <Route path="/" element={<Home/>} />
+       {/* <Route exact path="/" component={Home} /> */}
+       <Route path="/product/:id" element={<ProductDetails/>} />
+       {/* <Route exact path="/product/:id" component={ProductDetails} /> */}
        </Routes>
-     
-      {/* <Home/> */}
-      {/* <Route exact path= "/" component={Home} /> */}
       <Footer />
     </Router>
   );
